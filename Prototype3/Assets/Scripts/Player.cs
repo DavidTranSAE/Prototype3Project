@@ -5,7 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public delegate void MoveRoom();
-    public static MoveRoom moveRoom1;
+    public static MoveRoom circusCol;
+    public static MoveRoom bedroom2Col;
+    public static MoveRoom buildingCol;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +22,19 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Collision1")
+        if (other.name == "CircusCol")
         {
-            moveRoom1();
+            circusCol();
+        }
+
+        if (other.name == "Bedroom2Col")
+        {
+            bedroom2Col();
+        }
+
+        if (other.name == "BuildingCol")
+        {
+            buildingCol();
         }
     }
 }
