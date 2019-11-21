@@ -5,25 +5,34 @@ using UnityEngine;
 public class Diary : MonoBehaviour
 {
     AudioSource mySource;
-    public AudioClip pageClip;
+    public AudioClip diaryClip;
 
-    public delegate void DiarySound(AudioSource source, AudioClip clip);
-    public static DiarySound pageTurn;
+    public delegate void DiaryEntry(AudioSource source, AudioClip clip);
+    public static DiaryEntry playDiary;
 
-    // Start is called before the first frame update
+    public GameObject door;
+    bool clicked;
+
     void Start()
     {
         mySource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Clicked()
     {
-        pageTurn(mySource, pageClip);
+        playDiary(mySource, diaryClip);
+
+        if (!clicked)
+        {
+            clicked = true;
+            StartCoroutine(DoorTrigger());
+        }
+    }
+
+    IEnumerator DoorTrigger()
+    {
+        yield return new WaitForSeconds(diaryClip.length + 0.5f);
+        door.GetComponent<Door>().Unlock();
+        door.GetComponent<Door>().Open();
     }
 }

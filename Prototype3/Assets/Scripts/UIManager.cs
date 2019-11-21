@@ -12,18 +12,10 @@ public class UIManager : MonoBehaviour
 
     public GameObject player;
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<Player>().interactable)
+        //if player is hovering over something that is interactable, change crosshair
+        if (player.GetComponent<Player>().canInteract)
         {
             crosshair.sprite = circle;
         }

@@ -6,20 +6,23 @@ public class SoundManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        Player.playDiary += PlaySound;
-        Diary.pageTurn += PlaySound;
+        Diary.playDiary += PlaySound;
+        Door.doorOpen += PlaySound;
+        Door.doorClose += PlaySound;
+        Door.doorLocked += PlaySound;
     }
 
     private void OnDisable()
     {
-        Player.playDiary -= PlaySound;
-        Diary.pageTurn -= PlaySound;
+        Diary.playDiary -= PlaySound;
+        Door.doorOpen -= PlaySound;
+        Door.doorClose -= PlaySound;
+        Door.doorLocked -= PlaySound;
     }
 
     void PlaySound(AudioSource source, AudioClip clip)
     {
         source.clip = clip;
         source.Play();
-        Debug.Log("Play");
     }
 }

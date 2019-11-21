@@ -10,57 +10,61 @@ public class GameManager : MonoBehaviour
 
     public GameObject circus;
     public GameObject building;
+    public GameObject final;
 
-    int diaryInt = 1;
+    public GameObject door;
 
     private void OnEnable()
     {
-        Player.circusCol += Movebedroom2;
-        Player.bedroom2Col += MoveBuilding;
-        Player.buildingCol += MoveBedroom3;
+        Checkpoint.giveCheckpoint += CheckpointUpdate;
+        TempWinScript.win += Win;
     }
 
     private void OnDisable()
     {
-        Player.circusCol -= Movebedroom2;
-        Player.bedroom2Col -= MoveBuilding;
-        Player.buildingCol -= MoveBedroom3;
+        Checkpoint.giveCheckpoint -= CheckpointUpdate;
+        TempWinScript.win -= Win;
     }
 
-    void Movebedroom2()
+    void CheckpointUpdate(string checkpoint)
     {
-        Destroy(bedroom1.gameObject);
-        bedroom2.transform.position = Vector3.zero;
-
-        diaryInt++;
-    }
-
-    void MoveBuilding()
-    {
-        Destroy(circus.gameObject);
-        building.transform.position = Vector3.zero;
-    }
-
-    void MoveBedroom3()
-    {
-        Destroy(bedroom2.gameObject);
-        bedroom3.transform.position = Vector3.zero;
-        diaryInt++;
-    }
-
-    void DiaryEntry()
-    {
-        if (diaryInt == 1)
+        if (checkpoint == "circus")
         {
-            Debug.Log("First Entry");
+            Destroy(bedroom1.gameObject);
+            bedroom2.transform.position = Vector3.zero;
         }
-        else if (diaryInt == 2)
+
+        if (checkpoint == "bedroom2")
         {
-            Debug.Log("Second Entry");
+            Destroy(circus.gameObject);
+            building.transform.position = Vector3.zero;
         }
-        else if (diaryInt == 3)
+
+        if (checkpoint == "building")
         {
-            Debug.Log("Third Entry");
+            Destroy(bedroom2.gameObject);
+            bedroom3.transform.position = Vector3.zero;
         }
+
+        if (checkpoint == "bedroom3")
+        {
+            Destroy(building.gameObject);
+            final.transform.position = Vector3.zero;
+        }
+
+        if (checkpoint == "final")
+        {
+            GameWin();
+        }
+    }
+
+    void Win()
+    {
+        door.GetComponent<Door>().Open();
+    }
+
+    void GameWin()
+    {
+
     }
 }

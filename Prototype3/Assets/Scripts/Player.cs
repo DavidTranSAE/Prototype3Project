@@ -4,28 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public delegate void MoveRoom();
-    public static MoveRoom circusCol;
-    public static MoveRoom bedroom2Col;
-    public static MoveRoom buildingCol;
-
-    public delegate void DiaryEntry(AudioSource source, AudioClip clip);
-    public static DiaryEntry playDiary;
-
+    //This reference is so that the Raycast from the play happens from the camera's position rather than the player's
     public GameObject camera;
 
-    public bool interactable;
-
+    //this is to track if an interactable object is being moused over
+    public bool canInteract;
 
     AudioSource myAudio;
 
-    public AudioClip diaryClip1;
-    public AudioClip diaryClip2;
-    public AudioClip diaryClip3;
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         myAudio = GetComponent<AudioSource>();
@@ -37,24 +23,8 @@ public class Player : MonoBehaviour
         InteractCheck();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.name == "CircusCol")
-        {
-            circusCol();
-        }
-
-        if (other.name == "Bedroom2Col")
-        {
-            bedroom2Col();
-        }
-
-        if (other.name == "BuildingCol")
-        {
-            buildingCol();
-        }
-    }
-
+    //checks if what the player is looking at can be interacted with and then changes a bool accordingly
+    //this is needed to tell the UIManager to change crosshair modes.
     void InteractCheck()
     {
         RaycastHit hit;
@@ -62,21 +32,22 @@ public class Player : MonoBehaviour
         {
             if (hit.transform.tag == "Interactable")
             {
-                interactable = true;
+                canInteract = true;
             }
             else
             {
-                interactable = false;
+                canInteract = false;
             }
         }
         else
         {
-            interactable = false;
+            canInteract = false;
         }
 
+        //if the player clicks on something that can be interacted with
         if (Input.GetMouseButtonUp(0))
         {
-            if (interactable)
+            if (canInteract)
             {
                 InteractClick(hit.transform.gameObject);
             }
@@ -85,10 +56,15 @@ public class Player : MonoBehaviour
 
     void InteractClick(GameObject hitObject)
     {
-        if (hitObject.name == "Diary")
+        //after being clicked, calls the clicked function of that object
+        if (hitObject.GetComponent<Diary>() != null)
         {
-            playDiary(myAudio, diaryClip1);
             hitObject.GetComponent<Diary>().Clicked();
+        }
+
+        if (hitObject.GetComponent<Door>() != null)
+        {
+            hitObject.GetComponent<Door>().Clicked();
         }
     }
 
