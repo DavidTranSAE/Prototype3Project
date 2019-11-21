@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public Sprite dot;
     public Sprite circle;
 
+    public GameObject player;
+
 
 
     // Start is called before the first frame update
@@ -21,6 +23,13 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (player.GetComponent<Player>().interactable)
+        {
+            crosshair.sprite = circle;
+        }
+        else
+        {
+            crosshair.sprite = dot;
+        }
     }
 }

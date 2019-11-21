@@ -9,17 +9,26 @@ public class Player : MonoBehaviour
     public static MoveRoom bedroom2Col;
     public static MoveRoom buildingCol;
 
+    public delegate void DiaryEntry(AudioSource source, AudioClip clip);
+    public static DiaryEntry playDiary;
+
     public GameObject camera;
 
+    public bool interactable;
 
 
+    AudioSource myAudio;
+
+    public AudioClip diaryClip1;
+    public AudioClip diaryClip2;
+    public AudioClip diaryClip3;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        myAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,15 +58,38 @@ public class Player : MonoBehaviour
     void InteractCheck()
     {
         RaycastHit hit;
-
-        if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 1f))
+        if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 1.5f))
         {
-            Debug.Log("First Hit");
-            Debug.Log(hit.transform.tag);
             if (hit.transform.tag == "Interactable")
             {
-                Debug.Log("hit");
+                interactable = true;
+            }
+            else
+            {
+                interactable = false;
+            }
+        }
+        else
+        {
+            interactable = false;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (interactable)
+            {
+                InteractClick(hit.transform.gameObject);
             }
         }
     }
+
+    void InteractClick(GameObject hitObject)
+    {
+        if (hitObject.name == "Diary")
+        {
+            playDiary(myAudio, diaryClip1);
+            hitObject.GetComponent<Diary>().Clicked();
+        }
+    }
+
 }
