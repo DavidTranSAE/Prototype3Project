@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Sprite circle;
 
     public GameObject player;
+    public Image healthBar;
 
     void Update()
     {
@@ -23,5 +24,17 @@ public class UIManager : MonoBehaviour
         {
             crosshair.sprite = dot;
         }
+
+        float fill = player.GetComponent<Player>().health / player.GetComponent<Player>().maxHealth;
+        healthBar.fillAmount = fill;
+
+
+
     }
+
+
+
+
+
+
 }

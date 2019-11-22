@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public bool canInteract;
 
     AudioSource myAudio;
+    public float health, maxHealth;
 
     void Start()
     {
