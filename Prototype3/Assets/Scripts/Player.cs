@@ -12,16 +12,30 @@ public class Player : MonoBehaviour
 
     AudioSource myAudio;
     public float health, maxHealth;
+    public Animator anim;
 
     void Start()
     {
         myAudio = GetComponent<AudioSource>();
+        //anim = gameObject.GetComponent<Animator>();  < (No longer needed)
     }
 
     // Update is called once per frame
     void Update()
     {
         InteractCheck();
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            anim.SetTrigger("Active");
+
+
+
+        }
+
+
+
+
     }
 
     //checks if what the player is looking at can be interacted with and then changes a bool accordingly
